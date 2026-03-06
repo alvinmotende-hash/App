@@ -288,13 +288,6 @@ input:focus, select:focus {
     width: auto;
     text-align: center;
 }
-
-@keyframes floatPulse {
-    0% { transform: translateX(-50%) translateY(0); opacity: 0.9; }
-    50% { transform: translateX(-50%) translateY(-10px); opacity: 1; }
-    100% { transform: translateX(-50%) translateY(0); opacity: 0.9; }
-}
-
 /* =========================
    Responsive Design
 ========================= */
