@@ -320,3 +320,10 @@ input:focus, select:focus {
         font-size: clamp(0.9rem, 4vw, 1.1rem);
     }
 }
+
+/* --- Make app static (no zoom) --- */
+.app-container {
+    opacity: 1;              /* always visible */
+    transform: scale(1);     /* fixed size */
+    transition: var(--transition);
+}
