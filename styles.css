@@ -36,15 +36,27 @@ body {
     font-family: 'Inter', sans-serif;
     background: linear-gradient(-45deg, #6366f1, #ec4899, #22c55e, #4338ca);
     background-size: 400% 400%;
-    animation: gradientShift 12s ease infinite;
+    animation: gradientShift 6s ease infinite;
     color: var(--text-main);
     transition: var(--transition);
 }
+/* --- Gradient Background --- */
+body {
+    background: linear-gradient(-45deg,
+        #6366f1, #ec4899, #22c55e, #4338ca, #facc15, #06b6d4
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite; /* faster cycle */
+}
+
+/* --- Gradient Shift --- */
 @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
+/* --- Floating Particles --- */
 body::before {
     content: "";
     position: fixed;
@@ -52,13 +64,15 @@ body::before {
     width: 100%; height: 100%;
     background-image: radial-gradient(circle, rgba(255,255,255,0.15) 2px, transparent 2px);
     background-size: 80px 80px;
-    animation: floatParticles 20s linear infinite;
+    animation: floatParticles 8s linear infinite; /* faster, synced */
     z-index: 0;
 }
 @keyframes floatParticles {
     from { transform: translateY(0); }
-    to { transform: translateY(-200px); }
+    to   { transform: translateY(-200px); }
 }
+
+/* --- Wave Overlay --- */
 body::after {
     content: "";
     position: fixed;
@@ -66,13 +80,14 @@ body::after {
     width: 100%; height: 100%;
     background: radial-gradient(circle at 20% 30%, rgba(99,102,241,0.2), transparent 60%),
                 radial-gradient(circle at 80% 70%, rgba(236,72,153,0.2), transparent 60%);
-    animation: waveShift 15s ease-in-out infinite alternate;
+    animation: waveShift 6s ease-in-out infinite alternate; /* synced with gradient */
     z-index: 0;
 }
 @keyframes waveShift {
     from { transform: scale(1) translateY(0); }
-    to { transform: scale(1.1) translateY(-20px); }
+    to   { transform: scale(1.1) translateY(-20px); }
 }
+
 
 /* --- APP CONTAINER --- */
 .app-container {
