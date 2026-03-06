@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow: Add Task</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app-container">
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-link active">Add Task ➕</a>
+        <a href="view_tasks.html" class="nav-link">View List 📋</a>
+    </nav>
+
+    <aside class="control-panel">
+        <h1>✅ TaskFlow</h1>
+        <div class="form-group">
+            <label>Task Description</label>
+            <input type="text" id="t-desc" placeholder="e.g. Finish Project">
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <select id="t-category">
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Priority</label>
+            <select id="t-priority">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+        </div>
+        <button class="btn-add" onclick="handleAddTask()">Save to List</button>
+    </aside>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
