@@ -40,15 +40,11 @@ body {
     color: var(--text-main);
     transition: var(--transition);
 }
-
-/* Gradient animation */
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
-
-/* Floating particles */
 body::before {
     content: "";
     position: fixed;
@@ -63,6 +59,20 @@ body::before {
     from { transform: translateY(0); }
     to { transform: translateY(-200px); }
 }
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at 20% 30%, rgba(99,102,241,0.2), transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(236,72,153,0.2), transparent 60%);
+    animation: waveShift 15s ease-in-out infinite alternate;
+    z-index: 0;
+}
+@keyframes waveShift {
+    from { transform: scale(1) translateY(0); }
+    to { transform: scale(1.1) translateY(-20px); }
+}
 
 /* --- APP CONTAINER --- */
 .app-container {
@@ -75,15 +85,17 @@ body::before {
     box-shadow: var(--shadow-soft);
     padding: 40px;
     transition: var(--transition);
+    animation: appEntrance 1.5s ease forwards;
+    opacity: 0;
+}
+@keyframes appEntrance {
+    0% { opacity: 0; transform: scale(0.9) rotate(-2deg); }
+    50% { opacity: 0.7; transform: scale(1.05) rotate(1deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
 }
 
 /* --- NAVIGATION --- */
-.nav-bar {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    margin-bottom: 40px;
-}
+.nav-bar { display: flex; justify-content: center; gap: 25px; margin-bottom: 40px; }
 .nav-link {
     border: none;
     cursor: pointer;
@@ -95,19 +107,28 @@ body::before {
     box-shadow: var(--shadow-soft);
     transition: var(--transition);
     font-size: 1rem;
+    animation: navBounce 1s ease-in-out;
 }
-.nav-link:hover { transform: translateY(-3px); }
+.nav-link:hover { transform: scale(1.1) rotate(2deg); }
 .nav-link.active {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
     box-shadow: var(--shadow-hover);
 }
+@keyframes navBounce {
+    0% { transform: translateY(-20px); opacity: 0; }
+    50% { transform: translateY(10px); opacity: 0.7; }
+    100% { transform: translateY(0); opacity: 1; }
+}
 
 /* --- SECTIONS --- */
-.section-tab { display: none; animation: fadeIn 0.5s ease-in-out; }
-.section-tab.active-section { display: block; }
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
+.section-tab { display: none; }
+.section-tab.active-section {
+    display: block;
+    animation: sectionSlide 0.6s ease forwards;
+}
+@keyframes sectionSlide {
+    from { opacity: 0; transform: translateY(25px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -121,11 +142,9 @@ body::before {
     transition: var(--transition);
 }
 .control-panel:hover { box-shadow: var(--shadow-hover); }
-
 h1 { color: var(--primary); margin-top: 0; margin-bottom: 10px; }
 .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; display: block; }
 .form-group { margin-bottom: 18px; }
-
 label {
     display: block;
     color: var(--text-muted);
@@ -135,7 +154,6 @@ label {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
 input, select {
     width: 100%;
     padding: 12px;
@@ -150,7 +168,6 @@ input:focus, select:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
 }
-
 .btn-add {
     width: 100%;
     background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -163,10 +180,13 @@ input:focus, select:focus {
     cursor: pointer;
     transition: var(--transition);
     margin-top: 12px;
+    animation: buttonGlow 3s infinite;
 }
-.btn-add:hover {
-    transform: scale(1.05);
-    box-shadow: var(--shadow-hover);
+.btn-add:hover { transform: scale(1.05); box-shadow: var(--shadow-hover); }
+@keyframes buttonGlow {
+    0% { box-shadow: 0 0 0 0 rgba(99,102,241,0.6); }
+    50% { box-shadow: 0 0 20px 6px rgba(99,102,241,0.3); transform: scale(1.05); }
+    100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.6); transform: scale(1); }
 }
 
 /* --- TASK LIST --- */
@@ -182,9 +202,15 @@ input:focus, select:focus {
     justify-content: space-between;
     border-left: 6px solid var(--text-muted);
     transition: var(--transition);
+    animation: cardCascade 0.6s ease forwards;
+    opacity: 0;
 }
-.task-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
-[data-theme="dark"] .task-card { background: rgba(30, 41, 59, 0.9); backdrop-filter: blur(8px); }
+.task-card:hover { transform: translateY(-6px) scale(1.03); box-shadow: var(--shadow-hover); }
+/* --- TASK LIST CONTINUED --- */
+[data-theme="dark"] .task-card {
+    background: rgba(30, 41, 59, 0.9);
+    backdrop-filter: blur(8px);
+}
 
 .priority-High { border-left-color: var(--danger); }
 .priority-Medium { border-left-color: var(--secondary); }
@@ -238,7 +264,13 @@ input:focus, select:focus {
     background: linear-gradient(135deg, #1e293b, #0f172a);
     border-color: var(--primary);
 }
-/* --- Animated Reminder Message --- */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(99,102,241,0.4); }
+    70% { box-shadow: 0 0 0 12px rgba(99,102,241,0); }
+    100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+}
+
+/* --- REMINDER MESSAGE --- */
 .reminder-message {
     position: fixed;
     bottom: 20px;
@@ -254,65 +286,29 @@ input:focus, select:focus {
     animation: floatPulse 3s ease-in-out infinite;
     z-index: 999;
 }
-
-/* Floating + pulsing animation */
 @keyframes floatPulse {
     0% { transform: translateX(-50%) translateY(0); opacity: 0.9; }
-    50% { transform: translateX(-50%) translateY(-8px); opacity: 1; }
+    50% { transform: translateX(-50%) translateY(-10px); opacity: 1; }
     100% { transform: translateX(-50%) translateY(0); opacity: 0.9; }
 }
-/* --- APP CONTAINER ANIMATION --- */
+
+/* --- TASK CARD CASCADE ANIMATION --- */
+@keyframes cardCascade {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* --- Gentle Zoom Animation --- */
+@keyframes gentleZoom {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.03); } /* zoom in slightly larger */
+    100% { transform: scale(1); }
+}
+
+/* Apply to the app container */
 .app-container {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 900px;
-    background: var(--bg-card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-soft);
-    padding: 40px;
+    opacity: 0; /* start hidden */
+    animation: appEntrance 1.5s ease forwards,
+               gentleZoom 3s ease-in-out infinite 1.5s;
     transition: var(--transition);
-    animation: appEntrance 1.2s ease forwards;
-    opacity: 0;
 }
 
-/* Entrance animation */
-@keyframes appEntrance {
-    0% { opacity: 0; transform: scale(0.95) translateY(20px); }
-    50% { opacity: 0.6; transform: scale(1.02) translateY(-5px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-/* --- SECTION FADE/SLIDE --- */
-.section-tab.active-section {
-    display: block;
-    animation: sectionSlide 0.6s ease forwards;
-}
-@keyframes sectionSlide {
-    from { opacity: 0; transform: translateY(25px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- TASK CARD INTERACTION --- */
-.task-card {
-    transition: var(--transition);
-    animation: cardPop 0.5s ease forwards;
-}
-@keyframes cardPop {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-.task-card:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: var(--shadow-hover);
-}
-
-/* --- BUTTON INTERACTION --- */
-.btn-add {
-    animation: buttonPulse 2.5s infinite;
-}
-@keyframes buttonPulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99,102,241,0.4); }
-    50% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(99,102,241,0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99,102,241,0); }
-}
