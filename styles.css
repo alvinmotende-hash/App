@@ -314,4 +314,35 @@ input:focus, select:focus {
                gentleZoom 3s ease-in-out infinite 1.5s;
     transition: var(--transition);
 }
+/* =========================
+   Responsive Design
+========================= */
+@media (max-width: 768px) {
+    .nav-bar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .control-panel {
+        padding: 1rem;
+    }
+    .task-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .reminder-message {
+        width: 100%;
+        border-radius: 0;
+    }
+}
 
+@media (max-width: 480px) {
+    h1 {
+        font-size: clamp(1.2rem, 5vw, 1.8rem);
+    }
+    .subtitle {
+        font-size: clamp(0.9rem, 4vw, 1.2rem);
+    }
+    .task-title {
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+    }
+}
